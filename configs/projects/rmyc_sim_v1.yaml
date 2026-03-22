@@ -1,0 +1,36 @@
+# ============================================================
+# RMYC Simulator v1 项目配置文件
+# ============================================================
+
+project_name: "rmyc_sim_v1"
+
+# 类别列表（必须与 ISAT 标注中的 category 名称一致）
+classes:
+  - name: "small_wall"
+    id: 0
+    description: "小障碍物墙体"
+
+  - name: "big_column"
+    id: 1
+    description: "大障碍物柱子"
+
+  - name: "robot"
+    id: 2
+    description: "机器人"
+
+  - name: "red_armor"
+    id: 3
+    description: "红色装甲板"
+
+  - name: "blue_armor"
+    id: 4
+    description: "蓝色装甲板"
+
+# 数据目录
+data_root: "./train_data"           # YOLO 训练数据输出目录
+origin_dir: "./origin_pics"         # ISAT 原始标注文件目录
+isat_yaml: "./origin_pics/isat.yaml"  # ISAT 类别配置文件
+
+# 数据集划分
+train_val_ratio: 9                  # train:val = 9:1
+random_seed: 42                     # 随机种子，保证划分可复现
