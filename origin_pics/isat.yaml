@@ -1,16 +1,15 @@
-# ============================================================
-# ISAT 类别配置文件
-# 类别名称必须与 project config 中的 classes[].name 完全一致
-# ============================================================
-
 label:
-  - name: "small_wall"
-    id: 0
-  - name: "big_column"
-    id: 1
-  - name: "robot"
-    id: 2
-  - name: "red_armor"
-    id: 3
-  - name: "blue_armor"
-    id: 4
+- color: '#000000'
+  name: __background__
+- color: '#fff198'
+  name: small_wall
+- color: '#8b4513'
+  name: big_column
+- color: '#32cd32'
+  name: robot
+- color: '#ff4444'
+  name: red_armor
+- color: '#4488ff'
+  name: blue_armor
+- color: '#ffa500'
+  name: bullet
