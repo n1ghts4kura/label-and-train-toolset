@@ -15,6 +15,7 @@ YOLOv5-seg ONNX 推理封装模块
         print(f"Class: {cls_id}, Score: {score:.2f}, Box: {box}")
 """
 
+import cv2
 import sys
 from pathlib import Path
 from typing import Optional
@@ -110,7 +111,7 @@ class YOLOInference:
         iy2 = np.minimum(a[:, None, 3], b[None, :, 3])
         inter = np.maximum(0.0, ix2 - ix1) * np.maximum(0.0, iy2 - iy1)
         area_a = (a[:, 2] - a[:, 0]) * (a[:, 3] - a[:, 1])
-        area_b = (b[:, 2] - b[None, :, 0]) * (b[:, 3] - b[None, :, 1])
+        area_b = (b[:, 2] - b[:, 0]) * (b[:, 3] - b[:, 1])
         return inter / (area_a[:, None] + area_b[None, :] - inter + 1e-7)
 
     def _nms(self, boxes_xyxy: np.ndarray, scores: np.ndarray, iou_thres: float = 0.45) -> list:
@@ -121,25 +122,31 @@ class YOLOInference:
             keep.append(i)
             if order.size == 1:
                 break
-            ious = self._box_iou(boxes_xyxy[i:i + 1], boxes_xyxy[order[1:]])[0]
-            order = order[1:][ious < iou_thres]
+            rest = order[1:]
+            if rest.size == 0:
+                break
+            ious = self._box_iou(boxes_xyxy[i:i + 1], boxes_xyxy[rest])[0]
+            mask = ious < iou_thres
+            order = rest[mask]
         return keep
 
     def detect(
         self,
-        image_path: str,
+        image,
         conf_thres: float = 0.25,
         iou_thres: float = 0.45,
-        imgsz: int = 640
+        imgsz: int = 640,
+        with_mask: bool = True
     ) -> tuple:
         """
         对单张图片进行目标检测和实例分割。
 
         参数:
-            image_path: 图片路径
+            image: 图片路径（str）或 cv2/numpy 数组（BGR 或 RGB）
             conf_thres: 置信度阈值
             iou_thres: NMS IoU 阈值
             imgsz: 推理尺寸
+            with_mask: 是否计算分割掩码（关闭可大幅提升推理速度）
 
         返回:
             (boxes, masks, scores, class_ids)
@@ -148,9 +155,14 @@ class YOLOInference:
             scores: N np.ndarray，置信度分数
             class_ids: N np.ndarray，类别 ID
         """
-        # 预处理
-        orig_pil = Image.open(image_path).convert("RGB")
-        orig_arr = np.array(orig_pil)
+        # 预处理：支持文件路径或 numpy 数组
+        if isinstance(image, np.ndarray):
+            # cv2.VideoCapture 返回 BGR，需转 RGB
+            orig_arr = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) if image.ndim == 3 and image.shape[2] == 3 else image
+        else:
+            # 文件路径
+            orig_pil = Image.open(image).convert("RGB")
+            orig_arr = np.array(orig_pil)
         orig_h, orig_w = orig_arr.shape[:2]
 
         lb_arr, ratio, (pt, pl) = self._letterbox(orig_arr, new_shape=imgsz)
@@ -198,14 +210,11 @@ class YOLOInference:
         boxes_xyxy[:, [0, 2]] = boxes_xyxy[:, [0, 2]].clip(0, orig_w)
         boxes_xyxy[:, [1, 3]] = boxes_xyxy[:, [1, 3]].clip(0, orig_h)
 
-        # 处理 Mask
+        # 处理 Mask（可关闭以提升速度）
         masks = []
-        if len(outputs) > 1:
+        if with_mask and len(outputs) > 1:
             proto = outputs[1][0]
             mh, mw = proto.shape[1], proto.shape[2]
-            proto_flat = proto.reshape(self.nc, -1) if len(coef_f) > 0 else proto.reshape(32, -1)
-
-            # 重新计算 proto_flat（确保 32 维度）
             proto_flat = proto.reshape(32, -1)
             logits = coef_f @ proto_flat
             probs = self._sigmoid(logits).reshape(-1, mh, mw)
