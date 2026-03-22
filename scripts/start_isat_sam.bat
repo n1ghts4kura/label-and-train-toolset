@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 echo ============================================================
-echo  ISAT-SAM Backend 启动器
+echo  ISAT-SAM 启动器
 echo ============================================================
 echo.
 
@@ -18,12 +18,11 @@ if %errorlevel%==0 (
 )
 
 echo.
-echo [INFO] 启动 ISAT-SAM Backend...
-echo [INFO] 默认地址: http://127.0.0.1:8000
-echo [INFO] 按 Ctrl+C 停止服务
+echo [INFO] 启动 ISAT-SAM...
+echo [INFO] 按 Ctrl+C 停止
 echo.
 
-REM 启动 isat-sam-backend
-isat-sam-backend --checkpoint mobile_sam.pt --host 127.0.0.1 --port 8000
+REM 启动 isat-sam
+isat-sam
 
 pause

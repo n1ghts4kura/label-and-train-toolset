@@ -137,14 +137,11 @@ python scripts/setup_isat_sam.py
 **方式二：手动安装**
 ```batch
 # 创建环境
-conda create -n isat_sam python=3.8
+conda create -n isat_sam python=3.10
 conda activate isat_sam
 
-# 安装 isat-sam-backend
-pip install isat-sam-backend
-
-# 下载 SAM 模型
-isat-sam-backend model --download mobile_sam
+# 安装 isat-sam
+pip install isat-sam
 ```
 
 ### 启动 ISAT-SAM
@@ -161,37 +158,15 @@ scripts\start_isat_sam.bat
 
 **方式三：命令行直接启动**
 ```batch
-isat-sam-backend --checkpoint mobile_sam.pt --host 127.0.0.1 --port 8000
+conda activate isat_sam
+isat-sam
 ```
-
-### SAM 模型选择
-
-| 模型 | 大小 | 精度 | 推荐场景 |
-|------|------|------|----------|
-| `mobile_sam` | ~40MB | 中等 | CPU/轻量级部署（默认） |
-| `sam_vit_b` | ~375MB | 较高 | 平衡精度与速度 |
-| `sam_vit_l` | ~1.2GB | 高 | 高精度需求 |
-| `sam_vit_h` | ~2.5GB | 最高 | 最高精度 |
-
-切换模型：
-```batch
-python scripts/start_isat_sam.py --model sam_vit_b
-```
-
-### ISAT GUI 下载
-
-ISAT-SAM Backend 是服务端，还需要 ISAT GUI 客户端：
-
-1. 访问 [ISAT Releases](https://github.com/yatengLG/ISAT/releases)
-2. 下载 `ISAT_windows.zip`
-3. 解压后运行 `ISAT/main.exe`
-4. 连接地址：`http://127.0.0.1:8000`
 
 ### 标注流程
 
-1. **启动 Backend**：`python scripts/start_isat_sam.py`
-2. **启动 ISAT GUI**：运行 ISAT/main.exe
-3. **导入图片**：ISAT GUI 中选择 `origin_pics/` 目录
+1. **安装 ISAT-SAM**：`python scripts/setup_isat_sam.py`
+2. **启动 ISAT-SAM**：`python scripts/start_isat_sam.py`
+3. **导入图片**：在 ISAT-SAM 界面中选择 `origin_pics/` 目录
 4. **进行标注**：使用 SAM 辅助绘制多边形
 5. **保存标注**：ISAT 自动保存 JSON 文件到 `origin_pics/`
 6. **导出 YOLO**：运行 `python scripts/export_labels.py --project your_project`
