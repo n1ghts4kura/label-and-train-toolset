@@ -1,0 +1,14 @@
+# ============================================================
+# YOLOv5-seg 数据集配置文件
+# 由 ConfigManager 自动生成，请勿手动修改
+# ============================================================
+
+path: TO_BE_SET_BY_SPLIT_SCRIPT
+
+train: images/train
+val: images/val
+
+nc: 1
+
+names:
+  0: unknown

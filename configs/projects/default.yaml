@@ -1,0 +1,28 @@
+# ============================================================
+# Label Toolkit 项目配置文件
+# ============================================================
+# 此文件定义项目相关的配置参数
+# 支持多项目管理：复制此文件并修改为新项目名称即可
+
+# 项目名称
+project_name: "default"
+
+# 数据集根目录（相对项目根目录）
+data_root: "./train_data"
+
+# 原始标注文件目录（ISAT JSON 和图片）
+origin_dir: "./origin_pics"
+
+# ISAT 类别配置文件
+isat_yaml: "./origin_pics/isat.yaml"
+
+# 类别定义（name 必须与 isat.yaml 中的 label name 一致）
+classes:
+  - name: "black_bold_box"
+    id: 0
+
+# 数据集划分比例（train : val = ratio : 1）
+train_val_ratio: 10
+
+# 随机种子（保证可复现）
+random_seed: 42
