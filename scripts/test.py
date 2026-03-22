@@ -70,6 +70,8 @@ def main():
                 onnx_path = candidates[0]
 
     # 获取类别信息
+    from core.config_manager import ConfigManager
+    ConfigManager.get_instance().switch_project("rmyc_sim_v1")
     cfg = get_config()
     class_names = [c["name"] for c in cfg.classes] if cfg.classes else ["unknown"]
 
