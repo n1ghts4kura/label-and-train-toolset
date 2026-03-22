@@ -3,12 +3,17 @@
 # 由 ConfigManager 自动生成，请勿手动修改
 # ============================================================
 
-path: TO_BE_SET_BY_SPLIT_SCRIPT
+path: E:/2026Project/RMYC_Simulator_VisionData_26_3_22/label_toolkit/train_data
 
 train: images/train
 val: images/val
 
-nc: 1
+nc: 6
 
 names:
-  0: unknown
+  0: small_wall
+  1: big_column
+  2: robot
+  3: red_armor
+  4: blue_armor
+  5: bullet

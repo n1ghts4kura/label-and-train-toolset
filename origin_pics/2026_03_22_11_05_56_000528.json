@@ -1,0 +1,65 @@
+{
+    "info": {
+        "description": "ISAT",
+        "folder": "E:/2026Project/RMYC_Simulator_VisionData_26_3_22/label_toolkit/origin_pics",
+        "name": "2026_03_22_11_05_56_000528.jpg",
+        "width": 1280,
+        "height": 720,
+        "depth": 3,
+        "note": ""
+    },
+    "objects": [
+        {
+            "category": "small_wall",
+            "group": 1,
+            "segmentation": [
+                [
+                    0.1,
+                    0.1
+                ],
+                [
+                    0.1,
+                    719.0
+                ],
+                [
+                    88.0,
+                    719.0
+                ],
+                [
+                    106.0,
+                    695.0
+                ],
+                [
+                    129.0,
+                    655.0
+                ],
+                [
+                    155.0,
+                    621.0
+                ],
+                [
+                    332.0,
+                    620.0
+                ],
+                [
+                    333.0,
+                    617.0
+                ],
+                [
+                    127.0,
+                    0.1
+                ]
+            ],
+            "area": 154912.11,
+            "layer": 1.0,
+            "bbox": [
+                -0.4,
+                -0.532624571976044,
+                333.47434164902523,
+                719.5
+            ],
+            "iscrowd": false,
+            "note": ""
+        }
+    ]
+}

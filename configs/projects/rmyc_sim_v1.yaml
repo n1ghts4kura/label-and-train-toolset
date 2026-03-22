@@ -26,6 +26,10 @@ classes:
     id: 4
     description: "蓝色装甲板"
 
+  - name: "bullet"
+    id: 5
+    description: "子弹"
+
 # 数据目录
 data_root: "./train_data"           # YOLO 训练数据输出目录
 origin_dir: "./origin_pics"         # ISAT 原始标注文件目录
