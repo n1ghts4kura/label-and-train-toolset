@@ -1,0 +1,27 @@
+# 视频文件
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+
+# 帧图片目录（自动提取的大批量文件）
+origin_pics/*.jpg
+origin_pics/*.png
+!origin_pics/isat.yaml
+
+# 训练输出
+runs/
+yolov5/runs/
+train_data/
+output*.jpg
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# ONNX 模型
+*.onnx
+!best.onnx
